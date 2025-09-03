@@ -1,0 +1,143 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String  @id @default(cuid())
+  username    String  @unique
+  displayName String?
+  email       String?
+  phoneNumber String?
+
+  // WebAuthn challenge tracking
+  currentChallenge String?
+
+  // Relationships
+  passkeys        Passkey[]
+  createdForms    Form[]           @relation("FormCreator")
+  formSubmissions FormSubmission[] @relation("FormSubmitter")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Passkey {
+  id     String @id @default(cuid())
+  userId String
+
+  credentialID        String @unique // Changed from Bytes to String for easier handling
+  credentialPublicKey Bytes
+  counter             BigInt // Changed from Int to BigInt for WebAuthn spec compliance
+
+  // Additional WebAuthn metadata
+  credentialType       String  @default("public-key")
+  transports           String? // JSON string of transport methods
+  authenticatorAAGUID  String?
+  credentialBackedUp   Boolean @default(false)
+  credentialDeviceType String? // "singleDevice" or "multiDevice"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Form {
+  id          String  @id @default(cuid())
+  title       String
+  description String?
+
+  // Form metadata
+  isPublished Boolean @default(false)
+  isActive    Boolean @default(true)
+
+  // Creator information
+  createdBy String
+  creator   User   @relation("FormCreator", fields: [createdBy], references: [id], onDelete: Cascade)
+
+  // Relationships
+  fields      FormField[]
+  submissions FormSubmission[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([createdBy])
+  @@index([isPublished, isActive])
+}
+
+model FormField {
+  id     String @id @default(cuid())
+  formId String
+
+  // Field configuration
+  label       String
+  type        String // "text", "email", "number", "date", "checkbox", "select", "textarea"
+  placeholder String?
+  required    Boolean @default(false)
+  description String?
+  options     String? // JSON string for select options
+
+  // Relationships
+  form      Form                @relation(fields: [formId], references: [id], onDelete: Cascade)
+  responses FormFieldResponse[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([formId])
+}
+
+model FormSubmission {
+  id     String @id @default(cuid())
+  formId String
+
+  // Submission metadata
+  submittedBy String? // Optional - for anonymous submissions
+  submitter   User?   @relation("FormSubmitter", fields: [submittedBy], references: [id], onDelete: SetNull)
+
+  // Submission data
+  data      Json // Store all form data as JSON
+  ipAddress String?
+  userAgent String?
+
+  // Relationships
+  form      Form                @relation(fields: [formId], references: [id], onDelete: Cascade)
+  responses FormFieldResponse[]
+
+  submittedAt DateTime @default(now())
+
+  @@index([formId])
+  @@index([submittedBy])
+  @@index([formId, submittedAt])
+}
+
+model FormFieldResponse {
+  id           String @id @default(cuid())
+  submissionId String
+  fieldId      String
+
+  // Response value (stored as text, can be parsed based on field type)
+  value String
+
+  // Relationships
+  submission FormSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  field      FormField      @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([submissionId, fieldId]) // One response per field per submission
+  @@index([submissionId])
+  @@index([fieldId])
+}
