@@ -5,17 +5,23 @@ import { getAuthenticationOptions } from "./get-authentication-options";
 import { verifyAuthentication } from "./verify-authentication";
 import { getCurrentUser } from "./get-current-user";
 
-export const createJWT = (userId: string, email: string) => {
-  const token = jwt.sign({ userId, email }, process.env.JWT_SECRET!);
+export type JWTPayload = {
+  userId: string;
+  email: string;
+  name: string;
+};
+
+export const createJWT = (userId: string, email: string, name: string) => {
+  const token = jwt.sign(
+    { userId, email, name } as JWTPayload,
+    process.env.JWT_SECRET!
+  );
   return token;
 };
 
 export const validateJWT = (token: string) => {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
-      userId: string;
-      email: string;
-    };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload;
     return { valid: true, decoded };
   } catch (error) {
     return { valid: false, error };

@@ -9,7 +9,7 @@ export const listForms = os.use(authMiddleware).handler(async ({ context }) => {
 
   const forms = await db.form.findMany({
     where: {
-      createdBy: context.user.id,
+      createdBy: context.user.userId,
     },
     select: {
       id: true,

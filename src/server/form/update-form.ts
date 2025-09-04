@@ -23,7 +23,7 @@ export const updateForm = os
     const existingForm = await db.form.findFirst({
       where: {
         id,
-        createdBy: context.user.id,
+        createdBy: context.user.userId,
       },
     });
 

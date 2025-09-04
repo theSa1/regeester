@@ -19,7 +19,7 @@ export const getFormResponses = os
     const form = await db.form.findFirst({
       where: {
         id: input.id,
-        createdBy: context.user.id,
+        createdBy: context.user.userId,
       },
       include: {
         fields: {

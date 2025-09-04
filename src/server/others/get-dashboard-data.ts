@@ -12,14 +12,14 @@ export const getDashboardData = os
 
     const formCount = await db.form.count({
       where: {
-        createdBy: user.id,
+        createdBy: user.userId,
       },
     });
 
     const responsesCount = await db.formSubmission.count({
       where: {
         form: {
-          createdBy: user.id,
+          createdBy: user.userId,
         },
       },
     });

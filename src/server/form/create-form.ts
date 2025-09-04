@@ -14,7 +14,7 @@ export const createForm = os
     const form = await db.form.create({
       data: {
         title: input.title,
-        createdBy: context.user.id,
+        createdBy: context.user.userId,
         description: input.description,
         isPublished: input.isPublished || false,
         isActive: true,

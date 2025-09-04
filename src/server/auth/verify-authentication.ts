@@ -68,7 +68,7 @@ export const verifyAuthentication = os
       });
 
       const cookieStore = await cookies();
-      cookieStore.set("token", createJWT(user.id.toString(), user.email));
+      cookieStore.set("token", createJWT(user.id, user.email, user.name));
 
       return {
         success: true,
