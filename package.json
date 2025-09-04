@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "rm -f ./node_modules/@libsql/hrana-client/LICENSE && rm -f ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/hrana-client/LICENSE && next build --turbopack",
+    "postinstall": "rm -f ./node_modules/@libsql/hrana-client/LICENSE && rm -f ./node_modules/@prisma/adapter-libsql/node_modules/@libsql/hrana-client/LICENSE && prisma generate",
+    "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint"
   },
