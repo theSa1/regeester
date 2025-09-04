@@ -101,7 +101,9 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
             </Button>
           </Link>
           <div>
-            <h1 className="text-3xl font-black uppercase">{form.title}</h1>
+            <h1 className="text-2xl md:text-3xl font-black uppercase">
+              {form.title}
+            </h1>
           </div>
         </div>
 
@@ -114,7 +116,6 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
           </Link>
         </div>
       </div>
-
       {/* Unpublished Form Warning */}
       {!form.isPublished && (
         <Card className="border-amber-200 bg-amber-50">
@@ -131,53 +132,51 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
           </CardHeader>
         </Card>
       )}
-
       {/* Stats Cards */}
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
         <Card className="bg-secondary-background">
-          <CardHeader>
+          <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium text-foreground/70 flex items-center gap-2">
               <Users className="w-4 h-4" />
               Total Responses
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-0">
             <div className="text-2xl font-bold">{form._count.submissions}</div>
           </CardContent>
         </Card>
 
         <Card className="bg-secondary-background">
-          <CardHeader>
+          <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium text-foreground/70 flex items-center gap-2">
               <FileText className="w-4 h-4" />
               Form Fields
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-0">
             <div className="text-2xl font-bold">{form.fields.length}</div>
           </CardContent>
         </Card>
 
         <Card className="bg-secondary-background">
-          <CardHeader>
+          <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium text-foreground/70 flex items-center gap-2">
               <Calendar className="w-4 h-4" />
               Created
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-0">
             <div className="text-base font-bold">
               {new Date(form.createdAt).toLocaleDateString()}
             </div>
           </CardContent>
         </Card>
       </div>
-
       {/* Quick Actions */}
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
         <Link href={`/app/form/${id}/responses`}>
           <Card className="bg-secondary-background">
-            <CardHeader>
+            <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2">
                 <BarChart3 className="w-5 h-5" />
                 View Responses
@@ -191,10 +190,10 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
         </Link>
 
         <Card
-          className="bg-secondary-background transition-shadow cursor-pointer"
+          className="bg-secondary-background transition-shadow cursor-pointer hover:shadow-lg"
           onClick={copyToClipboard}
         >
-          <CardHeader>
+          <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2">
               <ExternalLink className="w-5 h-5" />
               Share Form
@@ -204,8 +203,7 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
             </CardDescription>
           </CardHeader>
         </Card>
-      </div>
-
+      </div>{" "}
       {/* Form Fields */}
       <Card className="bg-secondary-background">
         <CardHeader>
@@ -241,7 +239,6 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
           )}
         </CardContent>
       </Card>
-
       {/* Share Form */}
       <Card className="bg-secondary-background">
         <CardHeader>
@@ -251,13 +248,18 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center gap-3">
-            <div className="flex-1 px-3 py-2 shadow-shadow bg-background border-2 border-border rounded-base font-mono text-sm">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <div className="flex-1 w-full px-3 py-2 shadow-shadow bg-background border-2 border-border rounded-base font-mono text-sm break-all">
               {typeof window !== "undefined"
                 ? `${window.location.origin}/form/${id}`
                 : `[URL]/form/${id}`}
             </div>
-            <Button size="sm" variant="neutral" onClick={copyToClipboard}>
+            <Button
+              size="sm"
+              variant="neutral"
+              onClick={copyToClipboard}
+              className="w-full sm:w-auto"
+            >
               {copied ? (
                 <>
                   <Check className="w-4 h-4 mr-2" />

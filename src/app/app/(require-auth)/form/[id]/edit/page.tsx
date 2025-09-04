@@ -101,7 +101,9 @@ const EditFormPage = ({ params }: { params: Promise<{ id: string }> }) => {
           </Button>
         </Link>
         <div>
-          <h1 className="text-3xl font-black uppercase">Edit Form</h1>
+          <h1 className="text-2xl md:text-3xl font-black uppercase">
+            Edit Form
+          </h1>
         </div>
       </div>
 

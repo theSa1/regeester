@@ -100,10 +100,10 @@ const Page = () => {
   };
 
   return (
-    <main className="h-svh flex items-center justify-center">
-      <Card className="w-96 bg-secondary-background">
-        <CardHeader>
-          <CardTitle>Sign Up</CardTitle>
+    <main className="min-h-screen flex items-center justify-center p-4">
+      <Card className="w-full max-w-md bg-secondary-background">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl">Sign Up</CardTitle>
           <CardDescription>
             Create your account with a passkey for secure, passwordless
             authentication.

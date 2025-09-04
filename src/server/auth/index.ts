@@ -6,9 +6,7 @@ import { verifyAuthentication } from "./verify-authentication";
 import { getCurrentUser } from "./get-current-user";
 
 export const createJWT = (userId: string, username: string) => {
-  const token = jwt.sign({ userId, username }, process.env.JWT_SECRET!, {
-    expiresIn: "1h",
-  });
+  const token = jwt.sign({ userId, username }, process.env.JWT_SECRET!);
   return token;
 };
 

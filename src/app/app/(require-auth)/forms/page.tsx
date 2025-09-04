@@ -20,13 +20,13 @@ const Page = () => {
 
   return (
     <>
-      <div className="mb-8">
-        <h1 className="text-3xl font-black uppercase">Forms</h1>
+      <div className="mb-6 md:mb-8">
+        <h1 className="text-2xl md:text-3xl font-black uppercase">Forms</h1>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-5">
+      <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {forms.isLoading ? (
-          new Array(2).fill(0).map((_, idx) => (
+          new Array(3).fill(0).map((_, idx) => (
             <Card className="bg-secondary-background" key={idx}>
               <CardHeader>
                 <Skeleton className="h-6 w-1/2 mb-2" />

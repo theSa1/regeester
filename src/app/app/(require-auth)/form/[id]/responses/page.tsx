@@ -110,12 +110,14 @@ const ResponsesPage = ({ params }: { params: Promise<{ id: string }> }) => {
           </Button>
         </Link>
         <div>
-          <h1 className="text-3xl font-black uppercase">Form Responses</h1>
+          <h1 className="text-2xl md:text-3xl font-black uppercase">
+            Form Responses
+          </h1>
         </div>
       </div>
 
       {/* Stats */}
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
         <Card className="bg-secondary-background">
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium text-foreground/70 flex items-center gap-2">
@@ -123,7 +125,7 @@ const ResponsesPage = ({ params }: { params: Promise<{ id: string }> }) => {
               Total Responses
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-0">
             <div className="text-2xl font-bold">{submissions.length}</div>
           </CardContent>
         </Card>
@@ -135,7 +137,7 @@ const ResponsesPage = ({ params }: { params: Promise<{ id: string }> }) => {
               Form Fields
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-0">
             <div className="text-2xl font-bold">{form.fields.length}</div>
           </CardContent>
         </Card>
@@ -147,7 +149,7 @@ const ResponsesPage = ({ params }: { params: Promise<{ id: string }> }) => {
               Latest Response
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-0">
             <div className="text-sm font-medium">
               {submissions.length > 0
                 ? new Date(submissions[0].submittedAt).toLocaleDateString()
@@ -158,9 +160,9 @@ const ResponsesPage = ({ params }: { params: Promise<{ id: string }> }) => {
       </div>
 
       {/* Actions and Search */}
-      <div className="flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
-        <div className="flex items-center gap-3">
-          <div className="relative flex-1 md:w-64">
+      <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
+        <div className="flex items-center gap-3 flex-1">
+          <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-foreground/40 w-4 h-4" />
             <Input
               type="text"
@@ -173,7 +175,7 @@ const ResponsesPage = ({ params }: { params: Promise<{ id: string }> }) => {
         </div>
 
         <div className="flex gap-3">
-          <Button variant="neutral" size="sm">
+          <Button variant="neutral" size="sm" className="w-full sm:w-auto">
             <Download className="w-4 h-4 mr-2" />
             Export CSV
           </Button>
