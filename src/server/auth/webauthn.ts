@@ -1,5 +1,5 @@
 export const rpID =
-  process.env.NODE_ENV === "production" ? "your-domain.com" : "localhost";
+  process.env.NODE_ENV === "production" ? "regeester.sa1.dev" : "localhost";
 export const rpName = "Event Registration";
 export const origin =
   process.env.NODE_ENV === "production"
