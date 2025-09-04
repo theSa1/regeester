@@ -7,15 +7,15 @@ import { generateAuthenticationOptions } from "@simplewebauthn/server";
 export const getAuthenticationOptions = os
   .input(
     z.object({
-      username: z.string().min(2).max(100),
+      email: z.string().email("Please enter a valid email address"),
     })
   )
   .handler(async ({ input }) => {
     try {
-      const { username } = input;
+      const { email } = input;
 
       const user = await db.user.findUnique({
-        where: { username },
+        where: { email },
         include: { passkeys: true },
       });
 

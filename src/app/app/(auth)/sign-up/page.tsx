@@ -23,44 +23,41 @@ import { startRegistration, WebAuthnError } from "@simplewebauthn/browser";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import z from "zod";
 import { client } from "@/lib/orpc";
 import { toast } from "sonner";
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  email: z
-    .string()
-    .email("Please enter a valid email address")
-    .optional()
-    .or(z.literal("")),
-  phoneNumber: z.string().optional(),
+  email: z.string().email("Please enter a valid email address"),
+  name: z.string().min(1, "Name is required"),
 });
 
 const Page = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
       email: "",
-      phoneNumber: "",
+      name: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    if (isLoading) return;
+    setIsLoading(true);
+
     try {
       const data = await client.auth.getRegistrationOptions({
-        username: values.username,
-        email: values.email || undefined,
-        phoneNumber: values.phoneNumber || undefined,
+        email: values.email,
+        name: values.name,
       });
 
       if (!data.success || !data.data) {
         toast.error(`Error: ${data.message}`);
+        setIsLoading(false);
         return;
       }
 
@@ -78,13 +75,13 @@ const Page = () => {
         } else {
           toast.error("Registration failed. Please try again.");
         }
+        setIsLoading(false);
         return;
       }
 
       const verificationData = await client.auth.verifyRegistration({
-        username: values.username,
-        email: values.email || undefined,
-        phoneNumber: values.phoneNumber || undefined,
+        email: values.email,
+        name: values.name,
         registrationResponse: attResp,
       });
 
@@ -93,9 +90,11 @@ const Page = () => {
         router.push("/app");
       } else {
         toast.error(`Registration failed: ${verificationData.message}`);
+        setIsLoading(false);
       }
     } catch (error) {
       toast.error("Registration failed. Please try again.");
+      setIsLoading(false);
     }
   };
 
@@ -114,27 +113,10 @@ const Page = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Username</FormLabel>
-                    <FormControl>
-                      <Input placeholder="i.e. sa1" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      Please enter your username.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email (Optional)</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
                         type="email"
@@ -143,7 +125,7 @@ const Page = () => {
                       />
                     </FormControl>
                     <FormDescription>
-                      Optional email address for notifications.
+                      Your email address for sign in.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -152,23 +134,23 @@ const Page = () => {
 
               <FormField
                 control={form.control}
-                name="phoneNumber"
+                name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone Number (Optional)</FormLabel>
+                    <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input type="tel" placeholder="+1234567890" {...field} />
+                      <Input placeholder="Your full name" {...field} />
                     </FormControl>
                     <FormDescription>
-                      Optional phone number for notifications.
+                      Your full name for display.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <Button type="submit" className="w-full">
-                Sign Up with Passkey
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? "Creating Account..." : "Sign Up with Passkey"}
               </Button>
             </form>
           </Form>

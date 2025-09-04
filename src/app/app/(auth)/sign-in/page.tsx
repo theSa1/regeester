@@ -23,52 +23,60 @@ import { startAuthentication, WebAuthnError } from "@simplewebauthn/browser";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import z from "zod";
 import { client } from "@/lib/orpc";
 import { toast } from "sonner";
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
+  email: z.string().email("Please enter a valid email address"),
 });
 
 const Page = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      email: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    if (isLoading) return;
+    setIsLoading(true);
+
     try {
       const data = await client.auth.getAuthenticationOptions({
-        username: values.username,
+        email: values.email,
       });
 
       if (!data.success) {
         toast.error(`Error: ${data.message}`);
+        setIsLoading(false);
         return;
       }
 
       let authResp;
       try {
         // Pass the options to the authenticator and wait for a response
-        authResp = await startAuthentication({ optionsJSON: data.data as any });
+        authResp = await startAuthentication({
+          optionsJSON: data.data as any,
+          useBrowserAutofill: true,
+        });
       } catch (error) {
         if (error instanceof WebAuthnError) {
           toast.error("Authentication failed. Please try again.");
         } else {
           toast.error("Authentication failed. Please try again.");
         }
+        setIsLoading(false);
         return;
       }
 
       const verificationData = await client.auth.verifyAuthentication({
-        username: values.username,
+        email: values.email,
         authenticationResponse: authResp,
       });
 
@@ -77,9 +85,11 @@ const Page = () => {
         router.push("/app");
       } else {
         toast.error(`Authentication failed: ${verificationData.message}`);
+        setIsLoading(false);
       }
     } catch (error) {
       toast.error("Authentication failed. Please try again.");
+      setIsLoading(false);
     }
   };
 
@@ -97,22 +107,27 @@ const Page = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
-                name="username"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="i.e. sa1" {...field} />
+                      <Input
+                        type="email"
+                        placeholder="your@email.com"
+                        autoComplete="webauthn"
+                        {...field}
+                      />
                     </FormControl>
                     <FormDescription>
-                      Please enter your username.
+                      Please enter your email address.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full">
-                Sign In with Passkey
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? "Signing In..." : "Sign In with Passkey"}
               </Button>
             </form>
           </Form>

@@ -9,18 +9,17 @@ import db from "@/lib/db";
 export const verifyRegistration = os
   .input(
     z.object({
-      username: z.string().min(2).max(100),
-      email: z.string().email().optional(),
-      phoneNumber: z.string().optional(),
+      email: z.string().email("Please enter a valid email address"),
+      name: z.string().min(1, "Name is required"),
       registrationResponse: z.any(),
     })
   )
   .handler(async ({ input }) => {
     try {
-      const { username, email, phoneNumber, registrationResponse } = input;
+      const { email, name, registrationResponse } = input;
 
       const user = await db.user.findUnique({
-        where: { username },
+        where: { email },
         include: { passkeys: true },
       });
 
@@ -76,20 +75,20 @@ export const verifyRegistration = os
         where: { id: user.id },
         data: {
           currentChallenge: null,
-          email: email || user.email,
-          phoneNumber: phoneNumber || user.phoneNumber,
+          name: name || user.name,
         },
       });
 
       const cookieStore = await cookies();
-      cookieStore.set("token", createJWT(user.id.toString(), user.username));
+      cookieStore.set("token", createJWT(user.id.toString(), user.email));
 
       return {
         success: true,
         message: "Registration successful",
         user: {
           id: user.id,
-          username: user.username,
+          email: user.email,
+          name: user.name,
         },
       };
     } catch (error) {

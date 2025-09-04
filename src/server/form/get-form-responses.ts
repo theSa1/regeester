@@ -43,8 +43,8 @@ export const getFormResponses = os
         submitter: {
           select: {
             id: true,
-            username: true,
-            displayName: true,
+            email: true,
+            name: true,
           },
         },
         responses: {

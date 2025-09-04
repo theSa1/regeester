@@ -9,16 +9,16 @@ import { createJWT } from ".";
 export const verifyAuthentication = os
   .input(
     z.object({
-      username: z.string().min(2).max(100),
+      email: z.string().email("Please enter a valid email address"),
       authenticationResponse: z.any(),
     })
   )
   .handler(async ({ input }) => {
     try {
-      const { username, authenticationResponse } = input;
+      const { email, authenticationResponse } = input;
 
       const user = await db.user.findUnique({
-        where: { username },
+        where: { email },
         include: { passkeys: true },
       });
 
@@ -68,14 +68,15 @@ export const verifyAuthentication = os
       });
 
       const cookieStore = await cookies();
-      cookieStore.set("token", createJWT(user.id.toString(), user.username));
+      cookieStore.set("token", createJWT(user.id.toString(), user.email));
 
       return {
         success: true,
         message: "Authentication successful",
         user: {
           id: user.id,
-          username: user.username,
+          email: user.email,
+          name: user.name,
         },
       };
     } catch (error) {

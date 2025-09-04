@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
+    "@libsql/client": "^0.15.14",
     "@orpc/client": "^1.8.6",
     "@orpc/server": "^1.8.6",
     "@orpc/tanstack-query": "^1.8.6",
+    "@prisma/adapter-libsql": "^6.15.0",
     "@prisma/client": "^6.15.0",
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-checkbox": "^1.3.3",

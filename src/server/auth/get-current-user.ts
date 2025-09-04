@@ -10,9 +10,7 @@ export const getCurrentUser = os
 
     return {
       id: context.user.id,
-      username: context.user.username,
-      displayName: context.user.displayName,
       email: context.user.email,
-      phoneNumber: context.user.phoneNumber,
+      name: context.user.name,
     };
   });

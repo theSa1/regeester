@@ -91,11 +91,9 @@ const ResponsesPage = ({ params }: { params: Promise<{ id: string }> }) => {
     // Search in submitter info
     const submitterMatch =
       submission.submitter &&
-      (submission.submitter.username.toLowerCase().includes(searchLower) ||
-        (submission.submitter.displayName &&
-          submission.submitter.displayName
-            .toLowerCase()
-            .includes(searchLower)));
+      (submission.submitter.name.toLowerCase().includes(searchLower) ||
+        (submission.submitter.email &&
+          submission.submitter.email.toLowerCase().includes(searchLower)));
 
     return responseMatch || submitterMatch;
   });
@@ -240,8 +238,8 @@ const ResponsesPage = ({ params }: { params: Promise<{ id: string }> }) => {
                       {submission.submitter && (
                         <CardDescription>
                           By{" "}
-                          {submission.submitter.displayName ||
-                            submission.submitter.username}
+                          {submission.submitter.name ||
+                            submission.submitter.email}
                         </CardDescription>
                       )}
                     </div>

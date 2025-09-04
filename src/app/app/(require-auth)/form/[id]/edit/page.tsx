@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { ArrowLeft, FileText } from "lucide-react";
 import { use } from "react";
+import type { FormField } from "@/generated/prisma";
 
 const EditFormPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);

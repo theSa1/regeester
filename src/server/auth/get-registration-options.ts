@@ -7,16 +7,15 @@ import z from "zod";
 export const getRegistrationOptions = os
   .input(
     z.object({
-      username: z.string().min(2).max(100),
-      email: z.string().email().optional(),
-      phoneNumber: z.string().optional(),
+      email: z.string().email("Please enter a valid email address"),
+      name: z.string().min(1, "Name is required"),
     })
   )
   .handler(async ({ input }) => {
     try {
-      const { username, email, phoneNumber } = input;
+      const { email, name } = input;
       let user = await db.user.findUnique({
-        where: { username },
+        where: { email },
         include: { passkeys: true },
       });
 
@@ -31,8 +30,8 @@ export const getRegistrationOptions = os
         await generateRegistrationOptions({
           rpID,
           rpName,
-          userName: username,
-          userDisplayName: username,
+          userName: email,
+          userDisplayName: name,
           excludeCredentials,
         });
 
@@ -40,9 +39,8 @@ export const getRegistrationOptions = os
       if (!user) {
         user = await db.user.create({
           data: {
-            username,
             email,
-            phoneNumber,
+            name,
             currentChallenge: options.challenge,
           },
           include: { passkeys: true },
@@ -52,8 +50,7 @@ export const getRegistrationOptions = os
           where: { id: user.id },
           data: {
             currentChallenge: options.challenge,
-            email: email || user.email,
-            phoneNumber: phoneNumber || user.phoneNumber,
+            name: name || user.name,
           },
         });
       }

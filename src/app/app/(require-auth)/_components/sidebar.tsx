@@ -42,9 +42,8 @@ export const AppSidebar = ({
   );
 
   // Extract initials from username or displayName
-  const getInitials = (user: any) => {
-    if (!user) return "??";
-    const name = user.displayName || user.username;
+  const getInitials = (name: string) => {
+    if (!name) return "??";
     return name
       .split(" ")
       .map((n: string) => n[0])
@@ -94,17 +93,17 @@ export const AppSidebar = ({
         <div className="flex items-center justify-between p-2">
           <div className="flex items-center gap-2 min-w-0 flex-1">
             <Avatar className="h-8 w-8 flex-shrink-0">
-              <AvatarImage src="" alt={currentUser.data?.username || "User"} />
-              <AvatarFallback>{getInitials(currentUser.data)}</AvatarFallback>
+              <AvatarImage src="" alt={currentUser.data?.name || "User"} />
+              <AvatarFallback>
+                {getInitials(currentUser.data?.name || "User")}
+              </AvatarFallback>
             </Avatar>
             <div className="grid flex-1 text-left text-sm leading-tight min-w-0 group-data-[collapsible=icon]:hidden">
               <span className="truncate font-semibold">
-                {currentUser.data?.displayName ||
-                  currentUser.data?.username ||
-                  "Loading..."}
+                {currentUser.data?.name || "Loading..."}
               </span>
               <span className="truncate text-xs text-muted-foreground">
-                {currentUser.data?.email || currentUser.data?.username || ""}
+                {currentUser.data?.email || ""}
               </span>
             </div>
           </div>
