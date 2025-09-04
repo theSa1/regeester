@@ -58,7 +58,7 @@ export const submitFormResponse = os
 
       // Create individual field responses
       const fieldResponses = Object.entries(responses)
-        .filter(([fieldId, value]) => value && value.trim() !== "")
+        .filter(([, value]) => value && value.trim() !== "")
         .map(([fieldId, value]) => ({
           submissionId: newSubmission.id,
           fieldId,

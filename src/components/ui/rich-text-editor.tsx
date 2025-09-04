@@ -10,10 +10,8 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import { StarterKit } from "@tiptap/starter-kit";
 import {
   Bold,
-  Code,
   Heading1,
   Heading2,
-  Heading3,
   Italic,
   Link as LinkIcon,
   List,

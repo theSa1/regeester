@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,10 +16,10 @@ import {
 import { Label } from "@/components/ui/label";
 import { orpc } from "@/lib/orpc";
 import { client } from "@/lib/orpc";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { use } from "react";
-import { FileText, CheckCircle, AlertCircle, Send } from "lucide-react";
+import { CheckCircle, AlertCircle, Send } from "lucide-react";
 import { toast } from "sonner";
 import { proseClasses } from "@/lib/utils";
 
@@ -228,7 +222,7 @@ const PublicFormPage = ({ params }: { params: Promise<{ id: string }> }) => {
               <AlertCircle className="mx-auto h-12 w-12 text-red-500 mb-4" />
               <h3 className="text-lg font-medium mb-2">Form Not Found</h3>
               <p className="text-foreground/60 mb-6">
-                This form doesn't exist, has been disabled, or is no longer
+                This form doesn&apos;t exist, has been disabled, or is no longer
                 accepting responses.
               </p>
             </CardContent>

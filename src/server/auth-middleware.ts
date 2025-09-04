@@ -6,7 +6,7 @@ import db from "@/lib/db";
 
 export const authMiddleware = os
   .$context<{ user?: User }>()
-  .middleware(async ({ context, next }) => {
+  .middleware(async ({ next }) => {
     const cookieStore = await cookies();
 
     const token = cookieStore.get("token");

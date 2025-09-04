@@ -1,18 +1,11 @@
 "use client";
 
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
 import { orpc } from "@/lib/orpc";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { Edit, BarChart3, Users, CheckCircle, XCircle } from "lucide-react";
+import { CheckCircle, XCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 const Page = () => {

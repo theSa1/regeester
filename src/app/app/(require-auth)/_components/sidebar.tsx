@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  ChevronsUpDown,
-  FileText,
-  Home,
-  LogOut,
-  MoreHorizontal,
-  Plus,
-} from "lucide-react";
+import { FileText, Home, LogOut, Plus } from "lucide-react";
 
 import * as React from "react";
 import {
@@ -15,13 +8,11 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-  useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

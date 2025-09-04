@@ -14,7 +14,6 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useState } from "react";
 import {
-  Eye,
   FileText,
   Settings,
   Users,
@@ -29,7 +28,6 @@ import { use } from "react";
 import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { FormDescription } from "@/components/ui/form";
 
 const Page = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
@@ -48,7 +46,7 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
       setCopied(true);
       toast.success("Form link copied to clipboard!");
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
+    } catch {
       toast.error("Failed to copy link");
     }
   };
@@ -78,8 +76,8 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
           Form not found
         </h3>
         <p className="text-gray-500 mb-4">
-          The form you're looking for doesn't exist or you don't have access to
-          it.
+          The form you&apos;re looking for doesn&apos;t exist or you don&apos;t
+          have access to it.
         </p>
         <Link href="/app/forms">
           <Button>Back to Forms</Button>
@@ -219,7 +217,7 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
               No fields have been added to this form yet.
             </p>
           ) : (
-            form.fields.map((field, index) => (
+            form.fields.map((field) => (
               <div key={field.id}>
                 <Label>
                   {field.label}{" "}

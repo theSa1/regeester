@@ -5,16 +5,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  ArrowRight,
-  Calendar,
-  Github,
-  QrCode,
-  Shield,
-  Users,
-} from "lucide-react";
+import { ArrowRight, Calendar, QrCode, Shield, Users } from "lucide-react";
 import Link from "next/link";
-import { useAuth } from "@/components/auth-provider";
 
 export default function Home() {
   return (

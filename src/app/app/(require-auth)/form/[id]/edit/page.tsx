@@ -8,7 +8,8 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { ArrowLeft, FileText } from "lucide-react";
 import { use } from "react";
-import type { FormField } from "@/generated/prisma";
+import { fieldSchema } from "@/lib/shared-schemas";
+import z from "zod";
 
 const EditFormPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
@@ -64,8 +65,8 @@ const EditFormPage = ({ params }: { params: Promise<{ id: string }> }) => {
           Form not found
         </h3>
         <p className="text-gray-500 mb-4">
-          The form you're trying to edit doesn't exist or you don't have access
-          to it.
+          The form you&apos;re trying to edit doesn&apos;t exist or you
+          don&apos;t have access to it.
         </p>
         <Link href="/app/forms">
           <Button>Back to Forms</Button>
@@ -84,7 +85,7 @@ const EditFormPage = ({ params }: { params: Promise<{ id: string }> }) => {
     fields: form.fields.map((field) => ({
       id: field.id,
       label: field.label,
-      type: field.type as any,
+      type: field.type as z.infer<typeof fieldSchema>["type"],
       placeholder: field.placeholder || "",
       required: field.required,
       description: field.description || "",

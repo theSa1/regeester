@@ -43,8 +43,8 @@ export const exportFormResponses = os
         submitter: {
           select: {
             id: true,
-            username: true,
-            displayName: true,
+            name: true,
+            email: true,
           },
         },
         responses: {
@@ -73,9 +73,7 @@ export const exportFormResponses = os
         const row = [
           submission.id,
           submission.submittedAt.toISOString(),
-          submission.submitter?.displayName ||
-            submission.submitter?.username ||
-            "Anonymous",
+          submission.submitter?.name || "Anonymous",
           ...form.fields.map((field) => {
             const response = submission.responses.find(
               (r) => r.fieldId === field.id

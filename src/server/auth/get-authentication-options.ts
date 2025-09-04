@@ -2,7 +2,10 @@ import db from "@/lib/db";
 import { os } from "@orpc/server";
 import z from "zod";
 import { parseTransports, rpID } from "./webauthn";
-import { generateAuthenticationOptions } from "@simplewebauthn/server";
+import {
+  AuthenticatorTransportFuture,
+  generateAuthenticationOptions,
+} from "@simplewebauthn/server";
 
 export const getAuthenticationOptions = os
   .input(
@@ -25,7 +28,9 @@ export const getAuthenticationOptions = os
 
       const allowCredentials = user.passkeys.map((passkey) => ({
         id: passkey.credentialID,
-        transports: parseTransports(passkey.transports) as any,
+        transports: parseTransports(
+          passkey.transports
+        ) as AuthenticatorTransportFuture[],
       }));
 
       const options = await generateAuthenticationOptions({

@@ -15,7 +15,6 @@ import Link from "next/link";
 import {
   ArrowLeft,
   Download,
-  Filter,
   Search,
   Users,
   FileText,
@@ -203,8 +202,8 @@ const ResponsesPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 <Users className="mx-auto h-12 w-12 text-foreground/40 mb-4" />
                 <h3 className="text-lg font-medium mb-2">No responses yet</h3>
                 <p className="text-foreground/60 mb-6">
-                  This form hasn't received any responses yet. Share your form
-                  to start collecting responses.
+                  This form hasn&apos;t received any responses yet. Share your
+                  form to start collecting responses.
                 </p>
                 <Link href={`/app/form/${id}`}>
                   <Button>Back to Form</Button>

@@ -19,7 +19,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { startRegistration, WebAuthnError } from "@simplewebauthn/browser";
+import {
+  PublicKeyCredentialCreationOptionsJSON,
+  startRegistration,
+  WebAuthnError,
+} from "@simplewebauthn/browser";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -63,7 +67,9 @@ const Page = () => {
 
       let attResp;
       try {
-        attResp = await startRegistration({ optionsJSON: data.data as any });
+        attResp = await startRegistration({
+          optionsJSON: data.data as PublicKeyCredentialCreationOptionsJSON,
+        });
       } catch (error) {
         if (
           error instanceof WebAuthnError &&
@@ -92,7 +98,7 @@ const Page = () => {
         toast.error(`Registration failed: ${verificationData.message}`);
         setIsLoading(false);
       }
-    } catch (error) {
+    } catch {
       toast.error("Registration failed. Please try again.");
       setIsLoading(false);
     }

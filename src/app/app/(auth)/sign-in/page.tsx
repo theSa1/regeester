@@ -19,7 +19,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { startAuthentication, WebAuthnError } from "@simplewebauthn/browser";
+import {
+  startAuthentication,
+  WebAuthnError,
+  type PublicKeyCredentialRequestOptionsJSON,
+} from "@simplewebauthn/browser";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -62,7 +66,7 @@ const Page = () => {
       try {
         // Pass the options to the authenticator and wait for a response
         authResp = await startAuthentication({
-          optionsJSON: data.data as any,
+          optionsJSON: data.data as PublicKeyCredentialRequestOptionsJSON,
           useBrowserAutofill: true,
         });
       } catch (error) {
@@ -87,7 +91,7 @@ const Page = () => {
         toast.error(`Authentication failed: ${verificationData.message}`);
         setIsLoading(false);
       }
-    } catch (error) {
+    } catch {
       toast.error("Authentication failed. Please try again.");
       setIsLoading(false);
     }
@@ -132,7 +136,7 @@ const Page = () => {
             </form>
           </Form>
           <p className="text-center mt-4 text-sm text-foreground/70">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link
               href="/app/sign-up"
               className="text-main-foreground underline"

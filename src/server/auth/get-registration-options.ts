@@ -1,7 +1,10 @@
 import db from "@/lib/db";
 import { parseTransports, rpID, rpName } from "@/server/auth/webauthn";
 import { os } from "@orpc/server";
-import { generateRegistrationOptions } from "@simplewebauthn/server";
+import {
+  AuthenticatorTransportFuture,
+  generateRegistrationOptions,
+} from "@simplewebauthn/server";
 import z from "zod";
 
 export const getRegistrationOptions = os
@@ -23,7 +26,9 @@ export const getRegistrationOptions = os
       const excludeCredentials =
         user?.passkeys.map((passkey) => ({
           id: passkey.credentialID,
-          transports: parseTransports(passkey.transports) as any,
+          transports: parseTransports(
+            passkey.transports
+          ) as AuthenticatorTransportFuture[],
         })) || [];
 
       const options: PublicKeyCredentialCreationOptionsJSON =
