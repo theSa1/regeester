@@ -106,7 +106,7 @@ export const AppSidebar = ({
               // remove token cookie
               document.cookie =
                 "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-              router.replace("/app/sign-in");
+              router.push("/app/sign-in");
             }}
           >
             <LogOut className="h-4 w-4" />
