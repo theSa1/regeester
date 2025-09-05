@@ -67,7 +67,6 @@ const Page = () => {
         // Pass the options to the authenticator and wait for a response
         authResp = await startAuthentication({
           optionsJSON: data.data as PublicKeyCredentialRequestOptionsJSON,
-          useBrowserAutofill: true,
         });
       } catch (error) {
         if (error instanceof WebAuthnError) {
@@ -119,7 +118,7 @@ const Page = () => {
                       <Input
                         type="email"
                         placeholder="your@email.com"
-                        autoComplete="webauthn"
+                        autoComplete="email webauthn"
                         {...field}
                       />
                     </FormControl>
