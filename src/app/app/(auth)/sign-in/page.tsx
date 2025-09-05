@@ -125,7 +125,6 @@ const Page = () => {
                     <FormDescription>
                       Please enter your email address.
                     </FormDescription>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
