@@ -188,7 +188,7 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
         </Link>
 
         <Card
-          className="bg-secondary-background transition-shadow cursor-pointer hover:shadow-lg"
+          className="bg-secondary-background transition-shadow cursor-pointer"
           onClick={copyToClipboard}
         >
           <CardHeader className="pb-3">
