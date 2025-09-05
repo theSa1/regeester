@@ -135,10 +135,7 @@ const Page = () => {
           </Form>
           <p className="text-center mt-4 text-sm text-foreground/70">
             Don&apos;t have an account?{" "}
-            <Link
-              href="/app/sign-up"
-              className="text-main-foreground underline"
-            >
+            <Link href="/app/sign-up" className="text-foreground underline">
               Sign up
             </Link>
           </p>
