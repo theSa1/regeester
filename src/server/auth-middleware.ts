@@ -6,42 +6,24 @@ export const authMiddleware = os
   .$context<{
     user?: JWTPayload;
   }>()
-  .middleware(
-    async ({
-      next,
-    }): Promise<{
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      output: any;
-      context: {
-        user?: JWTPayload;
-      };
-    }> => {
-      const cookieStore = await cookies();
+  .middleware(async ({ next }) => {
+    const cookieStore = await cookies();
 
-      const token = cookieStore.get("token");
+    const token = cookieStore.get("token");
 
-      if (!token) {
-        return next({
-          context: {
-            user: undefined,
-          },
-        });
-      }
-
-      const user = validateJWT(token.value);
-
-      if (!user.valid || !user.decoded) {
-        return next({
-          context: {
-            user: undefined,
-          },
-        });
-      }
-
+    if (!token) {
       return next({
         context: {
-          user: user.decoded,
+          user: undefined,
         },
       });
     }
-  );
+
+    const user = validateJWT(token.value);
+
+    return next({
+      context: {
+        user: !user.valid || !user.decoded ? undefined : user.decoded,
+      },
+    });
+  });
