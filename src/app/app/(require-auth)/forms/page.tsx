@@ -17,7 +17,7 @@ const Page = () => {
         <h1 className="text-2xl md:text-3xl font-black uppercase">Forms</h1>
       </div>
 
-      <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+      <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         {forms.isLoading ? (
           new Array(3).fill(0).map((_, idx) => (
             <Card className="bg-secondary-background" key={idx}>
