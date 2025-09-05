@@ -93,7 +93,7 @@ const Page = () => {
 
       if (verificationData.success && verificationData.user) {
         toast.success("Registration successful! Welcome!");
-        router.push("/app");
+        router.replace("/app");
       } else {
         toast.error(`Registration failed: ${verificationData.message}`);
         setIsLoading(false);

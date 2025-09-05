@@ -85,7 +85,7 @@ const Page = () => {
 
       if (verificationData.success && verificationData.user) {
         toast.success("Logged in successfully!");
-        router.push("/app");
+        router.replace("/app");
       } else {
         toast.error(`Authentication failed: ${verificationData.message}`);
         setIsLoading(false);
