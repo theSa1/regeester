@@ -42,6 +42,7 @@ const PublicFormPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const formQuery = useQuery(
     orpc.form.getPublicForm.queryOptions({
       input: { id },
+      retry: false,
     })
   );
 
