@@ -32,6 +32,25 @@ export const getPublicForm = os
       id: form.id,
       title: form.title,
       description: form.description,
+      bannerUrl: form.bannerUrl,
+
+      acceptResponsesUntil: form.acceptResponsesUntil,
+      requireAuthentication: form.requireAuthentication,
+      allowMultipleSubmissions: form.allowMultipleSubmissions,
+
+      eventName: form.eventName,
+      eventDate: form.eventDate,
+      eventTime: form.eventTime,
+      venueAddress: form.venueAddress,
+      venueName: form.venueName,
+      contactEmail: form.contactEmail,
+      contactPhone: form.contactPhone,
+
+      nameFieldPlaceholder: form.nameFieldPlaceholder,
+      nameFieldHelpText: form.nameFieldHelpText,
+      emailFieldPlaceholder: form.emailFieldPlaceholder,
+      emailFieldHelpText: form.emailFieldHelpText,
+
       fields: form.fields,
     };
   });

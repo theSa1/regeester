@@ -56,10 +56,30 @@ model Form {
   id          String  @id @default(cuid())
   title       String
   description String?
+  bannerUrl   String?
 
   // Form metadata
-  isPublished Boolean @default(false)
-  isActive    Boolean @default(true)
+  isPublished              Boolean   @default(false)
+  isActive                 Boolean   @default(true)
+  acceptResponsesUntil     DateTime?
+  maxResponses             Int?
+  requireAuthentication    Boolean   @default(false)
+  allowMultipleSubmissions Boolean   @default(true)
+
+  // Event details
+  eventName        String?
+  eventDate        String?
+  eventTime        String?
+  venueAddress     String?
+  venueName        String?
+  eventDescription String?
+  contactEmail     String?
+  contactPhone     String?
+
+  nameFieldPlaceholder  String?
+  nameFieldHelpText     String?
+  emailFieldPlaceholder String?
+  emailFieldHelpText    String?
 
   // Creator information
   createdBy String
@@ -101,6 +121,10 @@ model FormField {
 model FormSubmission {
   id     String @id @default(cuid())
   formId String
+
+  // Default required fields
+  name  String
+  email String
 
   // Submission metadata
   submittedBy String? // Optional - for anonymous submissions

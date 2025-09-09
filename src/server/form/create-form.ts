@@ -16,8 +16,29 @@ export const createForm = os
         title: input.title,
         createdBy: context.user.userId,
         description: input.description,
+        bannerUrl: input.bannerUrl,
         isPublished: input.isPublished || false,
-        isActive: true,
+        isActive: input.isActive ?? true,
+        acceptResponsesUntil: input.acceptResponsesUntil
+          ? new Date(input.acceptResponsesUntil)
+          : null,
+        maxResponses: input.maxResponses,
+        requireAuthentication: input.requireAuthentication || false,
+        allowMultipleSubmissions: input.allowMultipleSubmissions ?? true,
+        // Event details
+        eventName: input.eventName,
+        eventDate: input.eventDate,
+        eventTime: input.eventTime,
+        venueAddress: input.venueAddress,
+        venueName: input.venueName,
+        contactEmail: input.contactEmail,
+        contactPhone: input.contactPhone,
+
+        nameFieldPlaceholder: input.nameFieldPlaceholder,
+        nameFieldHelpText: input.nameFieldHelpText,
+        emailFieldPlaceholder: input.emailFieldPlaceholder,
+        emailFieldHelpText: input.emailFieldHelpText,
+
         fields: {
           create: input.fields.map((field) => ({
             label: field.label,

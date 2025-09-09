@@ -39,8 +39,28 @@ export const updateForm = os
         data: {
           title: formData.title,
           description: formData.description,
+          bannerUrl: formData.bannerUrl,
           isPublished: formData.isPublished || false,
-          isActive: true,
+          isActive: formData.isActive ?? true,
+          acceptResponsesUntil: formData.acceptResponsesUntil
+            ? new Date(formData.acceptResponsesUntil)
+            : null,
+          maxResponses: formData.maxResponses,
+          requireAuthentication: formData.requireAuthentication || false,
+          allowMultipleSubmissions: formData.allowMultipleSubmissions ?? true,
+          // Event details
+          eventName: formData.eventName,
+          eventDate: formData.eventDate,
+          eventTime: formData.eventTime,
+          venueAddress: formData.venueAddress,
+          venueName: formData.venueName,
+          contactEmail: formData.contactEmail,
+          contactPhone: formData.contactPhone,
+
+          nameFieldPlaceholder: formData.nameFieldPlaceholder,
+          nameFieldHelpText: formData.nameFieldHelpText,
+          emailFieldPlaceholder: formData.emailFieldPlaceholder,
+          emailFieldHelpText: formData.emailFieldHelpText,
         },
       });
 
